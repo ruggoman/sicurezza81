@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suite Sicurezza 81</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #ffffff 0%, #f1f2f6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 60px 80px;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 
+                        0 10px 20px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            max-width: 780px;
+        }
+
+        .title-group {
+            margin-bottom: 50px;
+        }
+
+        h1 { 
+            margin: 0;
+            font-size: 3.5em;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #1e3799; 
+            text-transform: uppercase;
+        }
+
+        h1 span {
+            color: #00a8ff; 
+        }
+
+        .subtitle {
+            color: #b2bec3;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        /* 4 colonne, 2 righe da 4 (8 app totali) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 140px);
+            gap: 36px;
+            justify-content: center;
+        }
+        
+        .app-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #2d3436;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .app-link:hover { 
+            transform: translateY(-12px); 
+        }
+        
+        .icon-box {
+            width: 110px;
+            height: 110px;
+            background: #ffffff;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+            border: 2px solid #f1f2f6;
+            transition: all 0.3s ease;
+        }
+        
+        .app-link:hover .icon-box {
+            border-color: #00a8ff;
+            box-shadow: 0 15px 30px rgba(0, 168, 255, 0.15);
+        }
+        
+        .app-label { 
+            font-size: 12px; 
+            font-weight: 800; 
+            color: #636e72;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .app-link:hover .app-label {
+            color: #1e3799;
+        }
+
+        .emergency-arrow {
+            width: 60px;
+            height: 60px;
+            fill: #2ecc71; 
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const ArrowIcon = () => (
+            <svg className="emergency-arrow" viewBox="0 0 24 24">
+                <path d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+            </svg>
+        );
+
+        const BrainIcon = () => (
+            <svg viewBox="0 0 64 64" width="54" height="54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="32" cy="32" rx="20" ry="22" fill="#a29bfe" fillOpacity="0.18" stroke="#6c5ce7" strokeWidth="2.2"/>
+                <path d="M32 10v44" stroke="#6c5ce7" strokeWidth="1.8" strokeDasharray="3 3" strokeLinecap="round"/>
+                <path d="M20 20 Q16 26 18 32" stroke="#6c5ce7" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                <path d="M16 32 Q15 38 20 42" stroke="#6c5ce7" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                <path d="M44 20 Q48 26 46 32" stroke="#6c5ce7" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                <path d="M48 32 Q49 38 44 42" stroke="#6c5ce7" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                <path d="M22 25 Q27 22 32 24 Q37 22 42 25" stroke="#6c5ce7" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+                <path d="M20 34 Q26 30 32 32 Q38 30 44 34" stroke="#6c5ce7" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+                <path d="M22 43 Q27 40 32 41 Q37 40 42 43" stroke="#6c5ce7" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
+            </svg>
+        );
+
+        const OcraIcon = () => (
+            <svg viewBox="0 0 64 64" width="54" height="54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 45 L20 35 Q20 30 25 30 L35 30 Q40 30 40 35 L40 45" stroke="#e67e22" strokeWidth="2.5" strokeLinecap="round"/>
+                <circle cx="30" cy="20" r="6" stroke="#e67e22" strokeWidth="2.5"/>
+                <path d="M40 35 L50 30" stroke="#e67e22" strokeWidth="2.5" strokeLinecap="round"/>
+                <rect x="22" y="45" width="16" height="8" rx="2" fill="#e67e22" fillOpacity="0.18" stroke="#e67e22" strokeWidth="2"/>
+                <path d="M30 30 L30 45" stroke="#e67e22" strokeWidth="1.5" strokeDasharray="2 2"/>
+            </svg>
+        );
+
+        const RumoreIcon = () => (
+            <svg viewBox="0 0 64 64" width="54" height="54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="24" width="10" height="16" rx="2" fill="#0984e3" fillOpacity="0.18" stroke="#0984e3" strokeWidth="2.2"/>
+                <path d="M18 24 L28 14 L28 50 L18 40 Z" fill="#0984e3" fillOpacity="0.22" stroke="#0984e3" strokeWidth="2.2" strokeLinejoin="round"/>
+                <path d="M34 22 Q40 32 34 42" stroke="#0984e3" strokeWidth="2.4" strokeLinecap="round" fill="none"/>
+                <path d="M39 17 Q48 32 39 47" stroke="#0984e3" strokeWidth="2.2" strokeLinecap="round" fill="none" strokeOpacity="0.7"/>
+                <path d="M44 12 Q56 32 44 52" stroke="#0984e3" strokeWidth="2" strokeLinecap="round" fill="none" strokeOpacity="0.4"/>
+            </svg>
+        );
+
+        /* Icona vibrazioni: quadrato con curve di vibrazione ai lati */
+        const VibrazioniIcon = () => (
+            <svg viewBox="0 0 64 64" width="54" height="54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* curve vibrazione sinistra */}
+                <path d="M15 26 Q10 32 15 38" stroke="#d63031" strokeWidth="2.4" strokeLinecap="round" fill="none"/>
+                <path d="M10 22 Q3  32 10 42" stroke="#d63031" strokeWidth="2.0" strokeLinecap="round" fill="none" strokeOpacity="0.5"/>
+                {/* curve vibrazione destra */}
+                <path d="M49 26 Q54 32 49 38" stroke="#d63031" strokeWidth="2.4" strokeLinecap="round" fill="none"/>
+                <path d="M54 22 Q61 32 54 42" stroke="#d63031" strokeWidth="2.0" strokeLinecap="round" fill="none" strokeOpacity="0.5"/>
+                {/* quadrato centrale */}
+                <rect x="19" y="19" width="26" height="26" rx="6" fill="#d63031" fillOpacity="0.15" stroke="#d63031" strokeWidth="2.4"/>
+            </svg>
+        );
+
+        const apps = [
+            { 
+                name: "Planimetrie", 
+                url: "https://ruggoman.github.io/crea-piantine/", 
+                icon: <ArrowIcon />
+            },
+            { 
+                name: "Organigrammi", 
+                url: "https://ruggoman.github.io/organigramma/", 
+                icon: "👥" 
+            },
+            { 
+                name: "Analisi DVR", 
+                url: "https://ruggoman.github.io/matrice-rischi/", 
+                icon: "🛡️" 
+            },
+            { 
+                name: "Rapportini", 
+                url: "https://ruggoman.github.io/rapportini/", 
+                icon: "📋" 
+            },
+            {
+                name: "SLC",
+                url: "https://ruggoman.github.io/stress/",
+                icon: <BrainIcon />
+            },
+            {
+                name: "Valutazione OCRA",
+                url: "https://ruggoman.github.io/ocra/",
+                icon: <OcraIcon />
+            },
+            {
+                name: "Rischio Rumore",
+                url: "https://ruggoman.github.io/rumore/",
+                icon: <RumoreIcon />
+            },
+            {
+                name: "Rischio Vibrazioni",
+                url: "https://ruggoman.github.io/vibrazioni/",
+                icon: <VibrazioniIcon />
+            }
+        ];
+
+        function Dashboard() {
+            return (
+                <div className="dashboard-card">
+                    <div className="title-group">
+                        <h1>Suite Sicurezza <span>81</span></h1>
+                        <div className="subtitle">Console Strumenti Tecnici</div>
+                    </div>
+                    
+                    <div className="grid">
+                        {apps.map(app => (
+                            <a key={app.name} href={app.url} target="_blank" className="app-link" rel="noopener noreferrer">
+                                <div className="icon-box">{app.icon}</div>
+                                <span className="app-label">{app.name}</span>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Dashboard />);
+    </script>
+</body>
+</html>
